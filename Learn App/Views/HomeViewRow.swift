@@ -32,6 +32,7 @@ struct HomeViewRow: View {
                     Text(title)
                         .bold()
                     Text(description)
+                        .multilineTextAlignment(.leading)
                         .padding(.bottom, 20)
                         .font(.caption)
                     HStack {
