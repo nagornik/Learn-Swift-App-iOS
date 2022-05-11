@@ -14,6 +14,18 @@ struct TestView: View {
     @State var numCorrect = 0
     @State var submitted = false
     
+    var buttonText: String {
+        if submitted {
+            if model.currentQuestionIndex+1 < model.currentModule!.test.questions.count {
+                return "Next question"
+            }
+            return "Finish! Get results"
+        } else {
+            return "Submit"
+        }
+    }
+    
+    
     var body: some View {
         
         if model.currentQuestion != nil {
@@ -44,51 +56,51 @@ struct TestView: View {
                                             RectangleCard(color: .white)
                                                 .frame(height: 48)
                                         }
+                                    }
+                                    
+                                    Text(model.currentQuestion!.answers[index])
                                 }
-                               
-                                Text(model.currentQuestion!.answers[index])
                             }
+                            .disabled(submitted)
                         }
-                        .disabled(submitted)
                     }
+                    .accentColor(.black)
+                    .padding()
                 }
-                .accentColor(.black)
-                .padding()
-            }
-            Button {
-                submitted = true
-                if selectedAnswerIndex == model.currentQuestion!.correctIndex {
-                    numCorrect += 1
-                }
-            } label: {
-                ZStack {
-                    RectangleCard(color: .green)
-                        .frame(height: 48)
-                    Text("Submit")
-                        .bold()
-                        .foregroundColor(.white)
+                Button {
                     
+                    if submitted == true {
+                        model.nextQuestion()
+                        submitted = false
+                        selectedAnswerIndex = nil
+                    } else {
+                        submitted = true
+                        if selectedAnswerIndex == model.currentQuestion!.correctIndex {
+                            numCorrect += 1
+                        }
+                    }
+                    
+                } label: {
+                    ZStack {
+                        RectangleCard(color: .green)
+                            .frame(height: 48)
+                        Text(buttonText)
+                            .bold()
+                            .foregroundColor(.white)
+                        
+                    }
+                    .padding()
                 }
-                .padding()
+                .disabled(selectedAnswerIndex == nil)
+                
+                
             }
-            .disabled(selectedAnswerIndex == nil)
-            
-            
-        }
             .navigationTitle("\(model.currentModule?.category ?? "") Test")
-    } else {
-        ProgressView()
+        } else {
+            ProgressView()
+        }
+        
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-}
 }
 
 struct TestView_Previews: PreviewProvider {

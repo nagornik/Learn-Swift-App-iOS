@@ -57,7 +57,7 @@ class ContentModel: ObservableObject {
                 print("style no")
             }
         }
-        
+
     }
     
     //MARK: - Module navigation
@@ -100,6 +100,19 @@ class ContentModel: ObservableObject {
         } else {
             currentLesson = nil
             currentLessonIndex = 0
+        }
+    }
+    
+    //MARK: - Set next question
+    
+    func nextQuestion() {
+        currentQuestionIndex += 1
+        if currentQuestionIndex < currentModule!.test.questions.count {
+            currentQuestion = currentModule!.test.questions[currentQuestionIndex]
+            codeText = addStyling(htmlString: currentQuestion!.content)
+        } else {
+            currentQuestionIndex = 0
+            currentQuestion = nil
         }
     }
     
