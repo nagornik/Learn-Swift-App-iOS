@@ -21,8 +21,11 @@ struct ContentDetailView: View {
             if url != nil {
                 VideoPlayer(player: AVPlayer(url: url!))
                     .cornerRadius(10)
-                
+                    .aspectRatio(16/9, contentMode: .fit)
             }
+            
+            
+            CodeTextView()
             
             
             if model.hasNextLesson() {
@@ -48,6 +51,15 @@ struct ContentDetailView: View {
             
         }
         .padding()
+        .navigationBarTitleDisplayMode(.inline)
+                .toolbar { // <2>
+                    ToolbarItem(placement: .principal) { // <3>
+                        VStack {
+                            Text("Lesson \(model.currentLessonIndex+1)").font(.subheadline)
+                            Text(model.currentModule!.content.lessons[model.currentLessonIndex].title).font(.headline)
+                        }
+                    }
+                }
         
         
         
