@@ -23,6 +23,7 @@
 		4B9F3C20282AEB5F00040FEB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9F3C1F282AEB5E00040FEB /* Constants.swift */; };
 		4B9F3C3F282B808300040FEB /* CodeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9F3C3E282B808300040FEB /* CodeTextView.swift */; };
 		4B9F3C5E282B9AC000040FEB /* RectangleCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9F3C5D282B9AC000040FEB /* RectangleCard.swift */; };
+		4B9F3C7E282C478000040FEB /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9F3C7D282C477F00040FEB /* TestView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		4B9F3C1F282AEB5E00040FEB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4B9F3C3E282B808300040FEB /* CodeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTextView.swift; sourceTree = "<group>"; };
 		4B9F3C5D282B9AC000040FEB /* RectangleCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleCard.swift; sourceTree = "<group>"; };
+		4B9F3C7D282C477F00040FEB /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				4B9F3C16282AD7E500040FEB /* ContentView.swift */,
 				4B9F3C18282ADFE100040FEB /* ContentViewRow.swift */,
 				4B9F3C1A282AE7C800040FEB /* ContentDetailView.swift */,
+				4B9F3C7D282C477F00040FEB /* TestView.swift */,
 				4B9F3C3E282B808300040FEB /* CodeTextView.swift */,
 				4B9F3C5D282B9AC000040FEB /* RectangleCard.swift */,
 			);
@@ -224,6 +227,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B9F3C7E282C478000040FEB /* TestView.swift in Sources */,
 				4B9F3BFC282AB91800040FEB /* HomeView.swift in Sources */,
 				4B9F3C15282AD2E600040FEB /* HomeViewRow.swift in Sources */,
 				4B9F3C17282AD7E500040FEB /* ContentView.swift in Sources */,

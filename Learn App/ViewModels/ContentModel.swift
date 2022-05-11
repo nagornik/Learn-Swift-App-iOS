@@ -19,10 +19,13 @@ class ContentModel: ObservableObject {
     @Published var currentLesson: Lesson?
     var currentLessonIndex = 0
     
-    @Published var lessonDescription = NSAttributedString()
+    @Published var currentQuestion: Question?
+    var currentQuestionIndex = 0
+    
+    @Published var codeText = NSAttributedString()
     
     @Published var currentContentSelected: Int?
-    
+    @Published var currentTestSelected: Int?
     
     var styleData: Data?
     
@@ -76,7 +79,7 @@ class ContentModel: ObservableObject {
             currentLessonIndex = 0
         }
         currentLesson = currentModule!.content.lessons[currentLessonIndex]
-        lessonDescription = addStyling(htmlString: currentLesson!.explanation)
+        codeText = addStyling(htmlString: currentLesson!.explanation)
     }
     
     //MARK: - Is there a next lesson
@@ -93,7 +96,7 @@ class ContentModel: ObservableObject {
         currentLessonIndex += 1
         if currentLessonIndex < currentModule!.content.lessons.count {
             currentLesson = currentModule!.content.lessons[currentLessonIndex]
-            lessonDescription = addStyling(htmlString: currentLesson!.explanation)
+            codeText = addStyling(htmlString: currentLesson!.explanation)
         } else {
             currentLesson = nil
             currentLessonIndex = 0
@@ -104,21 +107,25 @@ class ContentModel: ObservableObject {
     private func addStyling(htmlString: String) -> NSAttributedString {
         var resultString = NSAttributedString()
         var data = Data()
-        
         if styleData != nil {
             data.append(self.styleData!)
         }
-        
         data.append(Data(htmlString.utf8))
-        
         if let attributedString = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) {
-            
             resultString = attributedString
-            
         }
-        
-        
         return resultString
     }
+    
+    //MARK: - Test navigation
+    func beginTest(moduleId: Int) {
+        beginModule(moduleId: moduleId)
+        currentQuestionIndex = 0
+        if currentModule?.test.questions.count ?? 0 > 0 {
+            currentQuestion = currentModule!.test.questions[currentQuestionIndex]
+            codeText = addStyling(htmlString: currentQuestion!.content) 
+        }
+    }
+    
     
 }

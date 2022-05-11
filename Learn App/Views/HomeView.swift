@@ -23,15 +23,21 @@ struct HomeView: View {
                             
                             NavigationLink(tag: module.id, selection: $model.currentContentSelected) {
                                 ContentView()
-                                    .onAppear(perform: {model.beginModule(moduleId: module.id)})
+                                    .onAppear {
+                                        model.beginModule(moduleId: module.id)
+                                    }
                             } label: {
                                 HomeViewRow(image: module.content.image, title: "Learn \(module.category)", description: module.content.description, count: "\(module.content.lessons.count) Lessons", time: module.content.time)
                             }
-
                             
-                            
-                            
-                            HomeViewRow(image: module.test.image, title: "\(module.category) Test", description: module.test.description, count: "\(module.test.questions.count) Questions", time: module.test.time)
+                            NavigationLink(tag: module.id, selection: $model.currentTestSelected) {
+                                TestView()
+                                    .onAppear {
+                                        model.beginTest(moduleId: module.id)
+                                    }
+                            } label: {
+                                HomeViewRow(image: module.test.image, title: "\(module.category) Test", description: module.test.description, count: "\(module.test.questions.count) Questions", time: module.test.time)
+                            }
                             
                         }.padding(.bottom, 20)
                     }
