@@ -72,7 +72,9 @@ class ContentModel: ObservableObject {
                 }
                 do {
                     let onlineData = try JSONDecoder().decode([Module].self, from: data!)
-                    self.modules += onlineData
+                    DispatchQueue.main.async {
+                        self.modules += onlineData
+                    }
                 } catch {}
             }
             dataTask.resume()
