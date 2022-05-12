@@ -16,7 +16,7 @@ struct TestView: View {
     
     var buttonText: String {
         if submitted {
-            if model.currentQuestionIndex+1 < model.currentModule!.test.questions.count {
+            if model.currentQuestionIndex+1 < model.currentModule?.test.questions.count ?? 0 {
                 return "Next question"
             }
             return "Finish! Get results"
@@ -49,7 +49,7 @@ struct TestView: View {
                                         if index == selectedAnswerIndex && index != model.currentQuestion!.correctIndex {
                                             RectangleCard(color: .red)
                                                 .frame(height: 48)
-                                        } else if index == model.currentQuestion!.correctIndex {
+                                        } else if index == model.currentQuestion?.correctIndex ?? 0 {
                                             RectangleCard(color: .green)
                                                 .frame(height: 48)
                                         } else {
@@ -58,7 +58,7 @@ struct TestView: View {
                                         }
                                     }
                                     
-                                    Text(model.currentQuestion!.answers[index])
+                                    Text(model.currentQuestion?.answers[index] ?? "Loading...")
                                 }
                             }
                             .disabled(submitted)
@@ -75,7 +75,7 @@ struct TestView: View {
                         selectedAnswerIndex = nil
                     } else {
                         submitted = true
-                        if selectedAnswerIndex == model.currentQuestion!.correctIndex {
+                        if selectedAnswerIndex == model.currentQuestion?.correctIndex ?? 0 {
                             numCorrect += 1
                         }
                     }

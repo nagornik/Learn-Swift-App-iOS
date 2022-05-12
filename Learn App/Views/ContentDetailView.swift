@@ -35,7 +35,7 @@ struct ContentDetailView: View {
                     ZStack {
                         RectangleCard(color: .green)
                             .frame(height: 48)
-                        Text("Next Lesson: \(model.currentModule!.content.lessons[model.currentLessonIndex+1].title)")
+                        Text("Next Lesson: \(model.currentModule?.content.lessons[model.currentLessonIndex+1].title ?? "Loading...")")
                             .foregroundColor(.white)
                             .bold()
                     }
@@ -61,10 +61,13 @@ struct ContentDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
                 .toolbar { // <2>
                     ToolbarItem(placement: .principal) { // <3>
-                        VStack {
-                            Text("Lesson \(model.currentLessonIndex+1)").font(.subheadline)
-                            Text(model.currentModule!.content.lessons[model.currentLessonIndex].title).font(.headline)
+                        if model.currentModule?.content.lessons.count ?? 0 > model.currentLessonIndex {
+                            VStack {
+                                Text("Lesson \(model.currentLessonIndex+1)").font(.subheadline)
+                                Text(model.currentModule?.content.lessons[model.currentLessonIndex].title ?? "Loading...").font(.headline)
+                            }
                         }
+                        
                     }
                 }
         

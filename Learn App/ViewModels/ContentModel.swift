@@ -94,6 +94,10 @@ class ContentModel: ObservableObject {
     
     //MARK: - Lesson navigation
     func beginLesson(lessonId: Int) {
+        guard currentModule != nil else {
+            return
+        }
+        
         if lessonId < currentModule!.content.lessons.count {
             currentLessonIndex = lessonId
         } else {
@@ -114,6 +118,9 @@ class ContentModel: ObservableObject {
     
     //MARK: - Set next lesson
     func setNextLesson() {
+        guard currentModule != nil else {
+            return
+        }
         currentLessonIndex += 1
         if currentLessonIndex < currentModule!.content.lessons.count {
             currentLesson = currentModule!.content.lessons[currentLessonIndex]
@@ -127,6 +134,9 @@ class ContentModel: ObservableObject {
     //MARK: - Set next question
     
     func nextQuestion() {
+        guard currentModule != nil else {
+            return
+        }
         currentQuestionIndex += 1
         if currentQuestionIndex < currentModule!.test.questions.count {
             currentQuestion = currentModule!.test.questions[currentQuestionIndex]
