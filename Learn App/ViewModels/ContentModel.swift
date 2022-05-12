@@ -32,10 +32,10 @@ class ContentModel: ObservableObject {
     init() {
         
         getLocalData()
-        
+        getRemoteData()
     }
     
-    //MARK: - Get data
+    //MARK: - Get local data
     func getLocalData() {
         if let jsonUrl = Bundle.main.url(forResource: "data", withExtension: "json") {
             do {
@@ -57,7 +57,26 @@ class ContentModel: ObservableObject {
                 print("style no")
             }
         }
-
+        
+    }
+    
+    //MARK: - Get remote data
+    
+    func getRemoteData() {
+        
+        if let url = URL(string: "https://nagornik.github.io/Learn-App/data2.json") {
+            let request = URLRequest(url: url)
+            let dataTask = URLSession.shared.dataTask(with: request) { data, responce, error in
+                guard error == nil else {
+                    return
+                }
+                do {
+                    let onlineData = try JSONDecoder().decode([Module].self, from: data!)
+                    self.modules += onlineData
+                } catch {}
+            }
+            dataTask.resume()
+        }
     }
     
     //MARK: - Module navigation
@@ -136,7 +155,7 @@ class ContentModel: ObservableObject {
         currentQuestionIndex = 0
         if currentModule?.test.questions.count ?? 0 > 0 {
             currentQuestion = currentModule!.test.questions[currentQuestionIndex]
-            codeText = addStyling(htmlString: currentQuestion!.content) 
+            codeText = addStyling(htmlString: currentQuestion!.content)
         }
     }
     
