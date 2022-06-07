@@ -21,7 +21,7 @@ struct HomeView: View {
                     LazyVStack {
                         ForEach(model.modules) { module in
                             
-                            NavigationLink(tag: module.id, selection: $model.currentContentSelected) {
+                            NavigationLink(tag: module.id.hash, selection: $model.currentContentSelected) {
                                 ContentView()
                                     .onAppear {
                                         model.beginModule(moduleId: module.id)
@@ -30,7 +30,7 @@ struct HomeView: View {
                                 HomeViewRow(image: module.content.image, title: "Learn \(module.category)", description: module.content.description, count: "\(module.content.lessons.count) Lessons", time: module.content.time)
                             }
                             
-                            NavigationLink(tag: module.id, selection: $model.currentTestSelected) {
+                            NavigationLink(tag: module.id.hash, selection: $model.currentTestSelected) {
                                 TestView()
                                     .onAppear {
                                         model.beginTest(moduleId: module.id)

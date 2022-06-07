@@ -6,8 +6,13 @@
 //
 
 import Foundation
+import FirebaseCore
+import FirebaseFirestore
+
 
 class ContentModel: ObservableObject {
+    
+    let db = Firestore.firestore()
     
     // List of modules
     @Published var modules = [Module]()
@@ -31,22 +36,115 @@ class ContentModel: ObservableObject {
     
     init() {
         
-        getLocalData()
-        getRemoteData()
+        getLocalStyles()
+        getDatabaseModules()
+//        getRemoteData()
+//        pushToFirebase(modules: modules)
+    }
+    
+    func getDatabaseModules() {
+        let collection = db.collection("modules")
+        collection.getDocuments { snap, error in
+            if error == nil && snap != nil {
+                var modules = [Module]()
+                for doc in snap!.documents {
+                    var m = Module()
+                    m.id = doc["id"] as? String ?? UUID().uuidString
+                    m.category = doc["category"] as? String ?? ""
+                    modules.append(m)
+                    let contentMap = doc["content"] as! [String: Any] ?? ["":""]
+                    m.content.id = contentMap["id"] as? String ?? ""
+                    m.content.description = contentMap["description"] as? String ?? ""
+                    m.content.image = contentMap["image"] as? String ?? ""
+                    m.content.time = contentMap["time"] as? String ?? ""
+                    let testMap = doc["test"] as? [String: Any] ?? ["":""]
+                    m.test.id = testMap["id"] as? String ?? ""
+                    m.test.description = testMap["description"] as? String ?? ""
+                    m.test.image = testMap["image"] as? String ?? ""
+                    m.test.time = testMap["time"] as? String ?? ""
+//                    m.test.questions
+                }
+                DispatchQueue.main.async {
+                    self.modules = modules
+                }
+            }
+        }
+    }
+    
+    // MARK: - Push to Firebase
+    func pushToFirebase(modules: [Module]) {
+        
+        let db = Firestore.firestore()
+        
+        let cloudModules = db.collection("modules")
+        
+        for module in modules {
+            
+            let content = module.content
+            let test = module.test
+            
+            // Add the module
+            let cloudModule = cloudModules.addDocument(data: [
+                "category": module.category
+            ])
+            
+            cloudModule.updateData([
+                "id": cloudModule.documentID,
+                "content": [
+                    "image": content.image,
+                    "time": content.time,
+                    "description": content.description,
+                    "count": content.lessons.count,
+                    "id": cloudModule.documentID
+                ],
+                "test": [
+                    "image": test.image,
+                    "time": test.time,
+                    "description": test.description,
+                    "count": test.questions.count,
+                    "id": cloudModule.documentID
+                ]
+            ])
+            
+            // Add the lessons
+            for lesson in content.lessons {
+                let cloudLesson = cloudModule.collection("lessons").addDocument(data: [
+                    "title": lesson.title,
+                    "video": lesson.video,
+                    "duration": lesson.duration,
+                    "explanation": lesson.explanation
+                ])
+                
+                cloudLesson.updateData(["id": cloudLesson.documentID])
+            }
+            
+            // Add the questions
+            for question in test.questions {
+                let cloudQuestion = cloudModule.collection("questions").addDocument(data: [
+                    "content": question.content,
+                    "correctIndex": question.correctIndex,
+                    "answers": question.answers
+                ])
+                
+                cloudQuestion.updateData(["id": cloudQuestion.documentID])
+            }
+            
+        }
+        
     }
     
     //MARK: - Get local data
-    func getLocalData() {
-        if let jsonUrl = Bundle.main.url(forResource: "data", withExtension: "json") {
-            do {
-                let rawData = try Data(contentsOf: jsonUrl)
-                let decodedData = try JSONDecoder().decode([Module].self, from: rawData)
-                self.modules = decodedData
-                print("yes")
-            } catch {
-                print("no")
-            }
-        }
+    func getLocalStyles() {
+//        if let jsonUrl = Bundle.main.url(forResource: "data", withExtension: "json") {
+//            do {
+//                let rawData = try Data(contentsOf: jsonUrl)
+//                let decodedData = try JSONDecoder().decode([Module].self, from: rawData)
+//                self.modules = decodedData
+//                print("yes")
+//            } catch {
+//                print("no")
+//            }
+//        }
         
         if let htmlUrl = Bundle.main.url(forResource: "style", withExtension: "html") {
             do {
@@ -82,7 +180,7 @@ class ContentModel: ObservableObject {
     }
     
     //MARK: - Module navigation
-    func beginModule(moduleId: Int) {
+    func beginModule(moduleId: String) {
         for index in 0..<modules.count {
             if modules[index].id == moduleId {
                 currentModuleIndex = index
@@ -162,7 +260,7 @@ class ContentModel: ObservableObject {
     }
     
     //MARK: - Test navigation
-    func beginTest(moduleId: Int) {
+    func beginTest(moduleId: String) {
         beginModule(moduleId: moduleId)
         currentQuestionIndex = 0
         if currentModule?.test.questions.count ?? 0 > 0 {
