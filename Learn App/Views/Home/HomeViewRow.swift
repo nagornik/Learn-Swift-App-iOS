@@ -20,7 +20,8 @@ struct HomeViewRow: View {
             Rectangle()
                 .foregroundColor(.white)
                 .cornerRadius(10)
-                .shadow(radius: 10)
+                .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 10)
+                .shadow(color: .black.opacity(0.4), radius: 2, x: 0, y: 1)
                 .aspectRatio(CGSize(width: 335, height: 175), contentMode: .fit)
             HStack {
                 Image(image)

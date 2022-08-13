@@ -72,7 +72,7 @@ struct TestView: View {
                     
                     if submitted == true {
                         if model.currentQuestionIndex+1 == model.currentModule?.test.questions.count ?? 0 {
-                           
+                            model.nextQuestion()
                             showResult = true
                         } else {
                             model.nextQuestion()

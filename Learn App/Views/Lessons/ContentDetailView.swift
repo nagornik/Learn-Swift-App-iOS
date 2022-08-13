@@ -28,6 +28,7 @@ struct ContentDetailView: View {
             CodeTextView()
             
             
+            
             if model.hasNextLesson() {
                 Button {
                     model.setNextLesson()
@@ -42,6 +43,7 @@ struct ContentDetailView: View {
                 }
             } else {
                 Button {
+                    model.setNextLesson()
                     model.currentContentSelected = nil
                 } label: {
                     ZStack {

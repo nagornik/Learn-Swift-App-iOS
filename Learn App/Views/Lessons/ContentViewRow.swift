@@ -28,7 +28,8 @@ struct ContentViewRow: View {
             Rectangle()
                 .foregroundColor(.white)
                 .cornerRadius(10)
-                .shadow(radius: 5)
+                .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 10)
+                .shadow(color: .black.opacity(0.4), radius: 2, x: 0, y: 1)
                 .frame(height: 66)
             HStack (spacing: 30) {
                 Text(String(index + 1))
