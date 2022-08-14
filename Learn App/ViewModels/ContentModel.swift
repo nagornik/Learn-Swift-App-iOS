@@ -78,7 +78,7 @@ class ContentModel: ObservableObject {
             
             if writeToDatabase == true {
                 let ref = db.collection("users").document(loggedInUser.uid)
-                ref.setData(["lastModule" : user.lastModule, "lastLesson" : user.lastLesson, "lastQuestion" : user.lastQuestion, "completedLessons" : user.completedLessons], merge: true)
+                ref.setData(["lastModule" : user.lastModule, "lastLesson" : user.lastLesson, "lastQuestion" : user.lastQuestion, "completedLessons" : user.completedLessons, "name" : user.name], merge: true)
             }
             
         }
@@ -102,11 +102,9 @@ class ContentModel: ObservableObject {
     // MARK: - Login check
     func checkLogin() {
         loggedIn = Auth.auth().currentUser != nil ? true : false
-        if UserService.shared.user.name == "" {
-            getUserData()
-            getDatabaseModules()
-            
-        }
+        getUserData()
+        getDatabaseModules()
+        saveData(writeToDatabase: true)
     }
     
     // MARK: - Get user data
@@ -159,66 +157,66 @@ class ContentModel: ObservableObject {
     }
     
     // MARK: - Push to Firebase
-    func pushToFirebase(modules: [Module]) {
-        
-        let db = Firestore.firestore()
-        
-        let cloudModules = db.collection("modules")
-        
-        for module in modules {
-            
-            let content = module.content
-            let test = module.test
-            
-            // Add the module
-            let cloudModule = cloudModules.addDocument(data: [
-                "category": module.category
-            ])
-            
-            cloudModule.updateData([
-                "id": cloudModule.documentID,
-                "content": [
-                    "image": content.image,
-                    "time": content.time,
-                    "description": content.description,
-                    "count": content.lessons.count,
-                    "id": cloudModule.documentID
-                ],
-                "test": [
-                    "image": test.image,
-                    "time": test.time,
-                    "description": test.description,
-                    "count": test.questions.count,
-                    "id": cloudModule.documentID
-                ]
-            ])
-            
-            // Add the lessons
-            for lesson in content.lessons {
-                let cloudLesson = cloudModule.collection("lessons").addDocument(data: [
-                    "title": lesson.title,
-                    "video": lesson.video,
-                    "duration": lesson.duration,
-                    "explanation": lesson.explanation
-                ])
-                
-                cloudLesson.updateData(["id": cloudLesson.documentID])
-            }
-            
-            // Add the questions
-            for question in test.questions {
-                let cloudQuestion = cloudModule.collection("questions").addDocument(data: [
-                    "content": question.content,
-                    "correctIndex": question.correctIndex,
-                    "answers": question.answers
-                ])
-                
-                cloudQuestion.updateData(["id": cloudQuestion.documentID])
-            }
-            
-        }
-        
-    }
+//    func pushToFirebase(modules: [Module]) {
+//
+//        let db = Firestore.firestore()
+//
+//        let cloudModules = db.collection("modules")
+//
+//        for module in modules {
+//
+//            let content = module.content
+//            let test = module.test
+//
+//            // Add the module
+//            let cloudModule = cloudModules.addDocument(data: [
+//                "category": module.category
+//            ])
+//
+//            cloudModule.updateData([
+//                "id": cloudModule.documentID,
+//                "content": [
+//                    "image": content.image,
+//                    "time": content.time,
+//                    "description": content.description,
+//                    "count": content.lessons.count,
+//                    "id": cloudModule.documentID
+//                ],
+//                "test": [
+//                    "image": test.image,
+//                    "time": test.time,
+//                    "description": test.description,
+//                    "count": test.questions.count,
+//                    "id": cloudModule.documentID
+//                ]
+//            ])
+//
+//            // Add the lessons
+//            for lesson in content.lessons {
+//                let cloudLesson = cloudModule.collection("lessons").addDocument(data: [
+//                    "title": lesson.title,
+//                    "video": lesson.video,
+//                    "duration": lesson.duration,
+//                    "explanation": lesson.explanation
+//                ])
+//
+//                cloudLesson.updateData(["id": cloudLesson.documentID])
+//            }
+//
+//            // Add the questions
+//            for question in test.questions {
+//                let cloudQuestion = cloudModule.collection("questions").addDocument(data: [
+//                    "content": question.content,
+//                    "correctIndex": question.correctIndex,
+//                    "answers": question.answers
+//                ])
+//
+//                cloudQuestion.updateData(["id": cloudQuestion.documentID])
+//            }
+//
+//        }
+//
+//    }
     
     
     // MARK: - Get lessons
@@ -296,24 +294,24 @@ class ContentModel: ObservableObject {
     
     //MARK: - Get remote data
     
-    func getRemoteData(completion: @escaping () -> Void) {
-        
-        if let url = URL(string: "https://nagornik.github.io/Learn-App/data2.json") {
-            let request = URLRequest(url: url)
-            let dataTask = URLSession.shared.dataTask(with: request) { data, responce, error in
-                guard error == nil else {
-                    return
-                }
-                do {
-                    let onlineData = try JSONDecoder().decode([Module].self, from: data!)
-                    DispatchQueue.main.async {
-                        self.modules += onlineData
-                    }
-                } catch {}
-            }
-            dataTask.resume()
-        }
-    }
+//    func getRemoteData(completion: @escaping () -> Void) {
+//        
+//        if let url = URL(string: "https://nagornik.github.io/Learn-App/data2.json") {
+//            let request = URLRequest(url: url)
+//            let dataTask = URLSession.shared.dataTask(with: request) { data, responce, error in
+//                guard error == nil else {
+//                    return
+//                }
+//                do {
+//                    let onlineData = try JSONDecoder().decode([Module].self, from: data!)
+//                    DispatchQueue.main.async {
+//                        self.modules += onlineData
+//                    }
+//                } catch {}
+//            }
+//            dataTask.resume()
+//        }
+//    }
     
     //MARK: - Module navigation
     func beginModule(moduleId: String) {
