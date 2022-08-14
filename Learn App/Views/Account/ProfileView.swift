@@ -12,17 +12,26 @@ struct ProfileView: View {
     
     @EnvironmentObject var model: ContentModel
     
-    
     var body: some View {
-        VStack {
-            Text("Hello, " + UserService.shared.user.name)
-                .font(.title)
-            Button("Sign Out") {
-                if model.loggedIn {
-                    try? Auth.auth().signOut()
-                    model.checkLogin()
+        NavigationView {
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("Lessons completed: \(UserService.shared.user.completedLessons.count)")
+//                        .font(.title)
+                }
+                
+                ForEach(UserService.shared.user.completedLessons, id:\.self) { lesson in  
+                    Text(lesson)
+                }
+                
+                Button("Sign Out") {
+                    if model.loggedIn {
+                        try? Auth.auth().signOut()
+                        model.checkLogin()
+                    }
                 }
             }
+            .navigationTitle("Hello, " + UserService.shared.user.name)
         }
     }
 }

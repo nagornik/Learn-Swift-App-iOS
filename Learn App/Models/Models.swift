@@ -59,4 +59,5 @@ class User {
     var lastModule: Int?
     var lastLesson: Int?
     var lastQuestion: Int?
+    var completedLessons: [String] = []
 }

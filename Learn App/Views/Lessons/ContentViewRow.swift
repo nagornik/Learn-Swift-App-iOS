@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ContentViewRow: View {
     
@@ -18,7 +19,7 @@ struct ContentViewRow: View {
             return Lesson(id: "0", title: "Loading...", video: "Loading...", duration: "Loading...", explanation: "Loading...")
         }
     }
-    
+    @State var completed = false
     
     var body: some View {
         
@@ -39,11 +40,44 @@ struct ContentViewRow: View {
                         .bold()
                     Text(lesson.duration)
                 }
+                
                 Spacer()
+                
+                if Auth.auth().currentUser != nil {
+                    Button {
+                        model.completeLesson(inputLesson: lesson)
+                        completed.toggle()
+                    } label: {
+                        Image(systemName: completed ? "checkmark.circle.fill" : "circle")
+                            .font(.system(size: 24, weight: .light))
+                            .padding(.trailing, 8)
+//                            .frame(maxWidth: .infinity, alignment: .trailing)
+                    }
+                }
+                
+                
             }
             .padding(.leading, 30)
+            
+//                Image(systemName: completed ? "checkmark.circle.fill" : "circle")
+//                    .font(.system(size: 24, weight: .light))
+//                    .padding(.horizontal, 8)
+//                    .frame(maxWidth: .infinity, alignment: .trailing)
+//                    .onTapGesture {
+//                        model.completeLesson(lesson: lesson)
+//                        completed.toggle()
+//                    }
+            
+            
         }
         .padding(.bottom, 5)
+        .onAppear {
+            if UserService.shared.user.completedLessons.contains(lesson.title) {
+                completed = true
+            } else {
+                completed = false
+            }
+        }
         
         
         

@@ -35,7 +35,37 @@ class ContentModel: ObservableObject {
     @Published var currentTestSelected: Int?
     
     var styleData: Data?
+    
+    
+    
+    func completeLesson(inputLesson: Lesson = Lesson()) {
+//        guard currentLesson != nil else {return}
+        let user = UserService.shared.user
 
+        var lesson = inputLesson
+        
+        if currentLesson != nil {
+            lesson = currentLesson!
+        }
+        
+        if user.completedLessons.contains(lesson.title) {
+            user.completedLessons.removeAll(where: {$0 == lesson.title})
+        } else {
+            user.completedLessons.append(lesson.title)
+        }
+        
+        saveData(writeToDatabase: true)
+        
+    }
+    
+//    func checkIfLessonCompleted() -> Bool {
+//        guard currentLesson != nil else {return false}
+//        if UserService.shared.user.completedLessons.contains(currentLesson!.title) {
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
     
     // MARK: - Save data
     func saveData(writeToDatabase: Bool = false) {
@@ -48,7 +78,7 @@ class ContentModel: ObservableObject {
             
             if writeToDatabase == true {
                 let ref = db.collection("users").document(loggedInUser.uid)
-                ref.setData(["lastModule" : user.lastModule, "lastLesson" : user.lastLesson, "lastQuestion" : user.lastQuestion], merge: true)
+                ref.setData(["lastModule" : user.lastModule, "lastLesson" : user.lastLesson, "lastQuestion" : user.lastQuestion, "completedLessons" : user.completedLessons], merge: true)
             }
             
         }
@@ -93,6 +123,7 @@ class ContentModel: ObservableObject {
             user.lastModule = data?["lastModule"] as? Int ?? nil
             user.lastLesson = data?["lastLesson"] as? Int ?? nil
             user.lastQuestion = data?["lastQuestion"] as? Int ?? nil
+            user.completedLessons = data?["completedLessons"] as? [String] ?? []
         }
     }
     

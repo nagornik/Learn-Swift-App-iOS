@@ -25,7 +25,7 @@ struct ContentView: View {
                         } label: {
                             ContentViewRow(index: index)
                         }
-
+                        
                         
                         
                     }
