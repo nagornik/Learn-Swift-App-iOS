@@ -135,6 +135,22 @@ struct LoginView: View {
                             .keyboardType(.default)
                             .font(.subheadline)
                             .frame(height: 44)
+                        
+                        if !email.isEmpty && !password.isEmpty && focus == .password {
+                            Button {
+                                logInOrType()
+                            } label: {
+                                Text(loginMode == .login ? "Log In" : "Sign Up")
+                                    .foregroundColor(.primary)
+                                    .padding(12)
+                                    .padding(.horizontal, 12)
+                                    .background(Color(hex: "FB6E3D"))
+                                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                    .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
+                                    .shadow(color: Color(hex: "FB6E3D").opacity(0.5), radius: 10, x: 0, y: 10)
+                                    .padding(.trailing)
+                            }
+                        }
                             
                     }
                     .onTapGesture {
