@@ -14,16 +14,14 @@ struct HomeViewRow: View {
     var description: String
     var count: String
     var time: String
+    var module: Module
+    
+    @State var showContent = false
     
     var body: some View {
-        
-        ZStack {
-//            Color.orange
-            
-//            oldcard
-            
-            
-            
+        if !showContent {
+        VStack {
+
             VStack (alignment: .leading, spacing: 10) {
                 HStack(alignment: .center) {
                     Text(title)
@@ -58,16 +56,27 @@ struct HomeViewRow: View {
             .foregroundColor(.white)
             .padding()
             
-            
-            
         }
-        
         .padding()
-//        .padding(.vertical)
         .background(Color(hex: "1E1E1E"))
         .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
         .padding()
         .shadow(color: .black, radius: 20, x: 0, y: 20)
+        } else {
+            ScrollView {
+                VStack {
+                    ForEach(0..<module.content.lessons.count) { index in
+                        ContentViewRow(index: index)
+                    }
+                }
+                .padding()
+                .background(Color(hex: "1E1E1E"))
+                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                .padding()
+            }
+        }
+        
+        
         
     }
     
@@ -115,6 +124,6 @@ struct HomeViewRow: View {
 
 struct HomeViewRow_Previews: PreviewProvider {
     static var previews: some View {
-        HomeViewRow(image: "swift", title: "Learn Swift", description: "Understand the fundamentals of the Swift programming language.", count: "20 Lessons", time: "2 Hours")
+        HomeViewRow(image: "swift", title: "Learn Swift", description: "Understand the fundamentals of the Swift programming language.", count: "20 Lessons", time: "2 Hours", module: ContentModel().localModules[0])
     }
 }

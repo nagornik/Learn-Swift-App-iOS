@@ -31,9 +31,9 @@ struct HomeView: View {
                 
                 ForEach(model.modules) { module in
                  
-                    HomeViewRow(image: module.content.image, title: "Learn \(module.category)", description: module.content.description, count: "\(module.content.lessons.count) Lessons", time: module.content.time)
+                    HomeViewRow(image: module.content.image, title: "Learn \(module.category)", description: module.content.description, count: "\(module.content.lessons.count) Lessons", time: module.content.time, module: module)
                     
-                    HomeViewRow(image: module.test.image, title: "\(module.category) Test", description: module.test.description, count: "\(module.test.questions.count) Questions", time: module.test.time)
+                    HomeViewRow(image: module.test.image, title: "\(module.category) Test", description: module.test.description, count: "\(module.test.questions.count) Questions", time: module.test.time, module: module)
                     
                 }
                 
@@ -77,7 +77,7 @@ struct HomeView: View {
                                         
                                     }
                             } label: {
-                                HomeViewRow(image: module.content.image, title: "Learn \(module.category)", description: module.content.description, count: "\(module.content.lessons.count) Lessons", time: module.content.time)
+                                HomeViewRow(image: module.content.image, title: "Learn \(module.category)", description: module.content.description, count: "\(module.content.lessons.count) Lessons", time: module.content.time, module: module)
                             }
                             
                             NavigationLink(tag: module.id.hash, selection: $model.currentTestSelected) {
@@ -88,7 +88,7 @@ struct HomeView: View {
                                         }
                                     }
                             } label: {
-                                HomeViewRow(image: module.test.image, title: "\(module.category) Test", description: module.test.description, count: "\(module.test.questions.count) Questions", time: module.test.time)
+                                HomeViewRow(image: module.test.image, title: "\(module.category) Test", description: module.test.description, count: "\(module.test.questions.count) Questions", time: module.test.time, module: module)
                             }
                             
                         }.padding(.bottom, 20)

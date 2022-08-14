@@ -18,6 +18,7 @@ class ContentModel: ObservableObject {
     
     // List of modules
     @Published var modules = [Module]()
+    @Published var localModules = [Module]()
     
     //Current module
     @Published var currentModule: Module?
@@ -36,6 +37,9 @@ class ContentModel: ObservableObject {
     
     var styleData: Data?
     
+    init() {
+        getLocalStyles()
+    }
     
     
     func completeLesson(inputLesson: Lesson = Lesson()) {
@@ -270,16 +274,16 @@ class ContentModel: ObservableObject {
     
     //MARK: - Get local data
     func getLocalStyles() {
-//        if let jsonUrl = Bundle.main.url(forResource: "data", withExtension: "json") {
-//            do {
-//                let rawData = try Data(contentsOf: jsonUrl)
-//                let decodedData = try JSONDecoder().decode([Module].self, from: rawData)
-//                self.modules = decodedData
-//                print("yes")
-//            } catch {
-//                print("no")
-//            }
-//        }
+        if let jsonUrl = Bundle.main.url(forResource: "data", withExtension: "json") {
+            do {
+                let rawData = try Data(contentsOf: jsonUrl)
+                let decodedData = try JSONDecoder().decode([Module].self, from: rawData)
+                self.localModules = decodedData
+                print("yes")
+            } catch {
+                print("no")
+            }
+        }
         
         if let htmlUrl = Bundle.main.url(forResource: "style", withExtension: "html") {
             do {
