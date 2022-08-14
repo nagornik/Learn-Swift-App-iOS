@@ -21,6 +21,9 @@ struct LaunchView: View {
             TabView {
                 if model.modules.count == 0 {
                     ProgressView()
+                        .onAppear {
+                            model.getDatabaseModules()
+                        }
                 } else {
                     HomeView()
                         .tabItem {

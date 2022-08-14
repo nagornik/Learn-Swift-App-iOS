@@ -19,7 +19,31 @@ struct HomeView: View {
         }
     }
     
+    
     var body: some View {
+        
+        ZStack {
+            
+            Color("background2")
+                .ignoresSafeArea()
+            
+            ScrollView {
+                
+                ForEach(model.modules) { module in
+                 
+                    HomeViewRow(image: module.content.image, title: "Learn \(module.category)", description: module.content.description, count: "\(module.content.lessons.count) Lessons", time: module.content.time)
+                    
+                    HomeViewRow(image: module.test.image, title: "\(module.category) Test", description: module.test.description, count: "\(module.test.questions.count) Questions", time: module.test.time)
+                    
+                }
+                
+            }
+        }
+        
+    }
+    
+    
+    var oldBody: some View {
         
         NavigationView {
             VStack (alignment: .leading) {

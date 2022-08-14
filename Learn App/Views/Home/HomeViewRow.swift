@@ -16,6 +16,62 @@ struct HomeViewRow: View {
     var time: String
     
     var body: some View {
+        
+        ZStack {
+//            Color.orange
+            
+//            oldcard
+            
+            
+            
+            VStack (alignment: .leading, spacing: 10) {
+                HStack(alignment: .center) {
+                    Text(title)
+                        .font(.title2)
+                        .bold()
+                    
+                    Spacer()
+                    
+                    Image(image)
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .clipShape(Circle())
+                }
+                Text(description)
+                    .multilineTextAlignment(.leading)
+                    .padding(.bottom, 20)
+                    .font(.callout)
+                HStack {
+                    Image(systemName: "text.book.closed")
+                        .resizable()
+                        .frame(width: 15, height: 15)
+                    Text(count)
+                        .font(Font.system(size: 13))
+                    Spacer()
+                    Image(systemName: "clock")
+                        .resizable()
+                        .frame(width: 15, height: 15)
+                    Text(time)
+                        .font(Font.system(size: 13))
+                }
+            }
+            .foregroundColor(.white)
+            .padding()
+            
+            
+            
+        }
+        
+        .padding()
+//        .padding(.vertical)
+        .background(Color(hex: "1E1E1E"))
+        .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+        .padding()
+        .shadow(color: .black, radius: 20, x: 0, y: 20)
+        
+    }
+    
+    var oldcard: some View {
         ZStack {
             Rectangle()
                 .foregroundColor(.white)

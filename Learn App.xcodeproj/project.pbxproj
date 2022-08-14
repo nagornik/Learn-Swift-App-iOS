@@ -82,6 +82,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B9DA94E28A979EB00A08601 /* New Views */ = {
+			isa = PBXGroup;
+			children = (
+				4BD7C5522851023400FE4832 /* LoginView.swift */,
+			);
+			path = "New Views";
+			sourceTree = "<group>";
+		};
 		4B9F3BED282AB91800040FEB = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				4BD7C5542851026500FE4832 /* LaunchView.swift */,
+				4B9DA94E28A979EB00A08601 /* New Views */,
 				4BD7C54F285101C000FE4832 /* Account */,
 				4BD7C54D285101B100FE4832 /* Home */,
 				4BD7C54E285101B800FE4832 /* Lessons */,
@@ -204,7 +213,6 @@
 		4BD7C54F285101C000FE4832 /* Account */ = {
 			isa = PBXGroup;
 			children = (
-				4BD7C5522851023400FE4832 /* LoginView.swift */,
 				4BD7C5562851217000FE4832 /* ProfileView.swift */,
 			);
 			path = Account;

@@ -102,9 +102,10 @@ class ContentModel: ObservableObject {
     // MARK: - Login check
     func checkLogin() {
         loggedIn = Auth.auth().currentUser != nil ? true : false
-        getUserData()
         getDatabaseModules()
-        saveData(writeToDatabase: true)
+        if loggedIn {
+            getUserData()
+        }
     }
     
     // MARK: - Get user data
@@ -150,7 +151,7 @@ class ContentModel: ObservableObject {
                 }
 //                DispatchQueue.main.async {
                     self.modules = modules
-                self.getOtherStuff()
+                    self.getOtherStuff()
 //                }
             }
         }

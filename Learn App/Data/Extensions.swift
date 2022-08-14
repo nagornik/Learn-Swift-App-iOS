@@ -34,3 +34,13 @@ extension Color {
         )
     }
 }
+
+func haptic(type: UINotificationFeedbackGenerator.FeedbackType) {
+    UINotificationFeedbackGenerator()
+        .notificationOccurred(type)
+}
+
+func impact(type: UIImpactFeedbackGenerator.FeedbackStyle) {
+    UIImpactFeedbackGenerator(style: type)
+        .impactOccurred()
+}

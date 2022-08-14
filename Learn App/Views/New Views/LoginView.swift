@@ -12,7 +12,11 @@ import FirebaseFirestore
 struct LoginView: View {
     
     @EnvironmentObject var model: ContentModel
-    @State var loginMode = Constants.LoginMode.login
+    @State var loginMode = Constants.LoginMode.login {
+        didSet {
+            impact(type: .soft)
+        }
+    }
     @State var email = ""
     @State var name = ""
     @State var password = ""
@@ -32,9 +36,21 @@ struct LoginView: View {
         case name
     }
     
-    @FocusState private var focus: FocusedFields?
+    @FocusState private var focus: FocusedFields? {
+        didSet {
+            if focus != nil {
+                impact(type: .soft)
+            }
+        }
+    }
     @State var isFocused = false
-    @State var showAlert = false
+    @State var showAlert = false {
+        didSet {
+            if showAlert == true {
+                haptic(type: .error)
+            }
+        }
+    }
     @State var alertTitle = "Uh-oh!"
     @State var alertMessage = "Something went wrong."
     @State var dragAlert = CGSize.zero
@@ -168,6 +184,7 @@ struct LoginView: View {
                 .padding(.horizontal)
                 .offset(y: -30)
                 .offset(x: switchingOffset)
+                .offset(y: isFocused ? -60 : 0)
                 
                 Button {
                     withAnimation(.spring()) {
@@ -176,18 +193,6 @@ struct LoginView: View {
                         } else {
                             loginMode = .login
                         }
-                        
-//                        switchingOffset = UIScreen.main.bounds.width
-//
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//                            switchingOffset = -UIScreen.main.bounds.width
-//                            withAnimation(.spring()) {
-//
-//                                switchingOffset = 0
-//                            }
-//
-//                        }
-                        
                     }
                 } label: {
                     HStack {
@@ -216,17 +221,19 @@ struct LoginView: View {
                     Spacer()
                 }
                 
-                Button {
-                    logInOrType()
-                } label: {
-                    Text(loginMode == .login ? "Log In" : "Sign Up")
-                        .foregroundColor(.primary)
-                        .padding(12)
-                        .padding(.horizontal, 30)
-                        .background(Color(hex: "FB6E3D"))
-                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                        .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
-                        .shadow(color: Color(hex: "FB6E3D").opacity(0.5), radius: 10, x: 0, y: 10)
+                if !isFocused {
+                    Button {
+                        logInOrType()
+                    } label: {
+                        Text(loginMode == .login ? "Log In" : "Sign Up")
+                            .foregroundColor(.primary)
+                            .padding(12)
+                            .padding(.horizontal, 30)
+                            .background(Color(hex: "FB6E3D"))
+                            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                            .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
+                            .shadow(color: Color(hex: "FB6E3D").opacity(0.5), radius: 10, x: 0, y: 10)
+                    }
                 }
                 
 //                if loginMode != .login {
@@ -268,6 +275,7 @@ struct LoginView: View {
                             
                             Button {
                                 showAlert = false
+                                impact(type: .medium)
                             } label: {
                                 Text("Ok")
                             }
@@ -307,14 +315,18 @@ struct LoginView: View {
             
         }
         .ignoresSafeArea(.all, edges: .top)
-        .offset(y: isFocused ? -60 : 0)
+//        .offset(y: isFocused ? -60 : 0)
         .onTapGesture {
             hideKeyboard()
         }
         .animation(.spring(), value: isFocused)
         .animation(.spring(), value: showAlert)
-        .background(.black.opacity(makeDark ? 1 : 0))
-        .animation(.linear(duration: 2), value: makeDark)
+        .overlay(content: {
+            Color.black
+                .opacity(makeDark ? 0.5 : 0)
+                .ignoresSafeArea()
+        })
+        .animation(.linear(duration: 1), value: makeDark)
         
         
     }
@@ -336,7 +348,7 @@ struct LoginView: View {
             focus = .password
         } else {
             hideKeyboard()
-            
+            impact(type: .heavy)
             if loginMode == .login {
                 makeDark = true
                 Auth.auth().signIn(withEmail: email, password: password) { result, error in
@@ -364,7 +376,7 @@ struct LoginView: View {
     
                     UserService.shared.user.name = name
                     makeDark = false
-                    
+                    model.saveData(writeToDatabase: true)
                 }
             }
         }
@@ -443,7 +455,7 @@ struct CoverView: View {
             .padding(.horizontal, 16)
             .offset(x: viewState.width/15, y: viewState.height/15)
             
-            Text("20 video & text lessons for SwiftUI, React and design tools.")
+            Text("20 video & text lessons for SwiftUI,\nSwift basics and design tools.")
                 .font(.subheadline)
 //                .blendMode(.hardLight)
                 .frame(width: 250)
