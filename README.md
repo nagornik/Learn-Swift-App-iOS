@@ -23,7 +23,8 @@ This app provides some text information, videos and tests about Swift/SwiftUI ba
 #### Profile view
 <img src="https://user-images.githubusercontent.com/33011419/184699721-1bef041a-bea7-47a2-bfe7-b4f36004e4b3.png" width="245"> <img src="https://user-images.githubusercontent.com/33011419/184699723-68ca5e6f-5cd5-4bc4-91f1-d7ffd3c7150a.png" width="245">
 
-#### iPad Pro (11-inch) (3rd generation)
+
+## iPad Pro (11-inch) (3rd generation)
 <img src="https://user-images.githubusercontent.com/33011419/184700016-d6389d42-4dd8-4a40-b268-d73fa4eb525e.png" width="400"> <img src="https://user-images.githubusercontent.com/33011419/184700010-6251a3cd-4c07-494c-a82d-d8a552576b6c.png" width="400">
 
 
