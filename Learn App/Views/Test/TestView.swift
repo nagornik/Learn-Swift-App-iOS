@@ -34,7 +34,9 @@ struct TestView: View {
                 Text("Question \(model.currentQuestionIndex+1) of \(model.currentModule?.test.questions.count ?? 0)")
                     .padding(.leading)
                 CodeTextView()
+                    .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
                     .padding(.horizontal, 20)
+                    .padding(.vertical)
                 
                 ScrollView {
                     VStack{
@@ -44,7 +46,7 @@ struct TestView: View {
                             } label: {
                                 ZStack {
                                     if submitted == false {
-                                        RectangleCard(color: index == selectedAnswerIndex ? .gray : .white)
+                                        RectangleCard(color: index == selectedAnswerIndex ? .gray : Color("back"))
                                             .frame(height: 48)
                                     } else {
                                         if index == selectedAnswerIndex && index != model.currentQuestion!.correctIndex {
@@ -54,18 +56,20 @@ struct TestView: View {
                                             RectangleCard(color: .green)
                                                 .frame(height: 48)
                                         } else {
-                                            RectangleCard(color: .white)
+                                            RectangleCard(color: Color("back"))
                                                 .frame(height: 48)
                                         }
                                     }
                                     
                                     Text(model.currentQuestion?.answers[index] ?? "Loading...")
+                                        .foregroundColor(Color("text"))
                                 }
+                                
                             }
                             .disabled(submitted)
                         }
                     }
-                    .accentColor(.black)
+                    
                     .padding()
                 }
                 Button {
@@ -91,13 +95,24 @@ struct TestView: View {
                     
                 } label: {
                     ZStack {
-                        RectangleCard(color: .green)
-                            .frame(height: 48)
+                            
                         Text(buttonText)
                             .bold()
-                            .foregroundColor(.white)
+                            .frame(height: 48)
                         
                     }
+//                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(Color("text"))
+                    .background(.green.opacity(0.5))
+                    .background(Color("back"))
+                    .overlay(content: {
+                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            .stroke(
+                                LinearGradient(colors: [Color("text").opacity(0.1), Color("back")], startPoint: .topLeading, endPoint: .bottomTrailing)
+                            )
+                    })
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                     .padding()
                 }
                 .disabled(selectedAnswerIndex == nil)
@@ -105,7 +120,7 @@ struct TestView: View {
                 
             }
             .navigationTitle("\(model.currentModule?.category ?? "") Test")
-            .background(Color("background2"))
+            .background(Color("background2").ignoresSafeArea())
         } else if showResult == true {
 //            ProgressView()
             TestResultView(numCorrect: numCorrect)

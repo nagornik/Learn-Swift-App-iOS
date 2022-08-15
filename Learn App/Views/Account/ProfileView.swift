@@ -16,7 +16,7 @@ struct ProfileView: View {
     @State var name = ""
     
     var body: some View {
-        NavigationView {
+//        NavigationView {
             ZStack {
                 VStack(spacing: 0.0) {
                     
@@ -25,12 +25,7 @@ struct ProfileView: View {
                         .padding(0)
                     
                     ForEach(model.modules) { module in
-    //                    Text(module.category)
-    //                        .font(.title.bold())
-    //                    ForEach(user.finishedLessons.filter({$0.module == module.category}).sorted(by: {$0.lessonNumber < $1.lessonNumber}), id:\.lessonTitle) { lesson in
-    //                        Text("\(lesson.lessonNumber + 1). \(lesson.lessonTitle)")
-    //                    }
-                        
+
                         VStack(alignment: .leading) {
                             
                             Text(module.category)
@@ -139,8 +134,9 @@ struct ProfileView: View {
                 
             }
             
-        }
+//        }
     }
+    
 }
 
 struct ProfileView_Previews: PreviewProvider {

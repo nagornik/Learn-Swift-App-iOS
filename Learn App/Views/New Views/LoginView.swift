@@ -62,7 +62,7 @@ struct LoginView: View {
         ZStack(alignment: .top) {
             
             Color("background2")
-                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+//                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
                 .ignoresSafeArea(.all, edges: .bottom)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             
@@ -361,6 +361,7 @@ struct LoginView: View {
                     }
                     model.loggedIn = true
                     makeDark = false
+                    model.checkLogin()
                 }
             } else {
                 makeDark = true

@@ -30,6 +30,7 @@ struct ContentDetailView: View {
             CodeTextView()
                 .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
                 .padding(.vertical)
+            
             HStack {
                 
                 Button {
