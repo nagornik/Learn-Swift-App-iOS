@@ -4,6 +4,7 @@ This app provides some text information, videos and tests about Swift/SwiftUI ba
 
 ## Features:
 - All data is stored on Firebase
+- Videos are stored on github
 - Login with Firebase to save your name and progress
 - Transform html + css to NSAttributedString
 - Dark mode support
