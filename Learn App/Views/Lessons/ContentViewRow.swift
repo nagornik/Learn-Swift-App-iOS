@@ -11,6 +11,7 @@ import FirebaseAuth
 struct ContentViewRow: View {
     
     @EnvironmentObject var model: ContentModel
+    
     var index: Int
     var lesson: Lesson {
         if model.currentModule != nil && index < model.currentModule!.content.lessons.count {
@@ -19,45 +20,12 @@ struct ContentViewRow: View {
             return Lesson(id: "0", title: "Loading...", video: "Loading...", duration: "Loading...", explanation: "Loading...")
         }
     }
+    
     @State var completed = false
     
     var body: some View {
         
-        
-
         ZStack {
-//            Rectangle()
-//                .foregroundColor(.white)
-//                .cornerRadius(10)
-//                .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 10)
-//                .shadow(color: .black.opacity(0.4), radius: 2, x: 0, y: 1)
-//                .frame(height: 66)
-//            HStack (spacing: 30) {
-//                Text(String(index + 1))
-//                    .bold()
-//                VStack (alignment: .leading) {
-//                    Text(lesson.title)
-//                        .bold()
-//                    Text(lesson.duration)
-//                }
-//
-//                Spacer()
-//
-//                if Auth.auth().currentUser != nil {
-//                    Button {
-//                        model.completeLesson(inputLesson: lesson)
-//                        completed.toggle()
-//                    } label: {
-//                        Image(systemName: completed ? "checkmark.circle.fill" : "circle")
-//                            .font(.system(size: 24, weight: .light))
-//                            .padding(.trailing, 8)
-//                    }
-//                }
-//
-//
-//            }
-//            .padding(.leading, 30)
-            
             
             ZStack {
                 HStack {
@@ -71,7 +39,6 @@ struct ContentViewRow: View {
                             .bold()
                         Text(lesson.duration)
                             .font(.callout)
-                        
                     }
                     
                     Spacer()
@@ -87,7 +54,6 @@ struct ContentViewRow: View {
                                 .foregroundColor(.primary)
                         }
                     }
-                    
                 }
             }
             .foregroundColor(Color("text"))
@@ -100,10 +66,6 @@ struct ContentViewRow: View {
                     )
             })
             .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-//            .padding(.horizontal)
-            
-//            .shadow(color: .primary.opacity(0.2), radius: 10, x: 0, y: 10)
-            
             
         }
         .padding(.bottom, 5)

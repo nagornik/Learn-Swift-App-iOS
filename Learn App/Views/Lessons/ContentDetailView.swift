@@ -20,12 +20,12 @@ struct ContentDetailView: View {
         let url = URL(string: Constants.videoHostUrl + (lesson?.video ?? ""))
         
         VStack {
+            
             if url != nil {
                 VideoPlayer(player: AVPlayer(url: url!))
                     .cornerRadius(10)
                     .aspectRatio(16/9, contentMode: .fit)
             }
-            
             
             CodeTextView()
                 .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
@@ -43,24 +43,17 @@ struct ContentDetailView: View {
                         }
                     }
                     
-                    
                 } label: {
                     ZStack {
-                        
-//                        RectangleCard(color: .green)
-//                            .frame(height: 48)
+
                         Text(model.hasNextLesson() ? "Next: \(model.currentModule?.content.lessons[model.currentLessonIndex+1].title ?? "Loading...")" : "Exit")
-//                            .foregroundColor(.white)
                             .bold()
                             .frame(maxWidth: .infinity, maxHeight: 48)
                             .lineLimit(1)
 
                         
                     }
-//                    .padding()
                     .foregroundColor(Color("text"))
-//                    .foregroundColor(.accentColor)
-//                    .padding(.vertical)
                     .background(.green.opacity(0.5))
                     .background(Color("back"))
                     .overlay(content: {
@@ -71,7 +64,6 @@ struct ContentDetailView: View {
                     })
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                 }
-                
                 
                 VStack {
                     Image(systemName: completed ? "checkmark.circle.fill" : "circle")
@@ -88,40 +80,9 @@ struct ContentDetailView: View {
                         completed.toggle()
                     }
                 }
-
                 
             }
-            
-//            if model.hasNextLesson() {
-//                Button {
-//                    model.setNextLesson()
-//                } label: {
-//                    ZStack {
-//                        RectangleCard(color: .green)
-//                            .frame(height: 48)
-//                        Text("Next Lesson: \(model.currentModule?.content.lessons[model.currentLessonIndex+1].title ?? "Loading...")")
-//                            .foregroundColor(.white)
-//                            .bold()
-//                    }
-//                }
-//            } else {
-//                Button {
-//                    model.setNextLesson()
-//                    model.currentContentSelected = nil
-//                } label: {
-//                    ZStack {
-//                        RectangleCard(color: .green)
-//                            .frame(height: 48)
-//                        Text("Complete")
-//                            .foregroundColor(.white)
-//                            .bold()
-//                    }
-//                }
-//            }
-            
-            
         }
-        
         .onAppear(perform: {
             guard model.currentLesson != nil else {return}
             if UserService.shared.user.finishedLessons.contains(where: {$0.lessonTitle == model.currentLesson!.title}) {
@@ -140,8 +101,8 @@ struct ContentDetailView: View {
         })
         .padding()
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar { // <2>
-            ToolbarItem(placement: .principal) { // <3>
+        .toolbar {
+            ToolbarItem(placement: .principal) {
                 if model.currentModule?.content.lessons.count ?? 0 > model.currentLessonIndex {
                     VStack {
                         Text("Lesson \(model.currentLessonIndex+1)").font(.subheadline)

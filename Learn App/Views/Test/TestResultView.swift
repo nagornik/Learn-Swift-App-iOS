@@ -13,7 +13,7 @@ struct TestResultView: View {
     
     var numCorrect: Int
     var resultHeading: String {
-        
+
         if model.currentModule == nil {
             return ""
         }
@@ -52,10 +52,6 @@ struct TestResultView: View {
             }
 
         }
-        
-        
-        
-        
     }
 }
 

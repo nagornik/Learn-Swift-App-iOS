@@ -14,7 +14,6 @@ struct CodeTextView: UIViewRepresentable {
     func makeUIView(context: Context) -> UITextView {
         let textView = UITextView()
         textView.isEditable = false
-//        textView.backgroundColor = UIColor(Color("background2"))
         textView.backgroundColor = UIColor(Color("back"))
         return textView
     }

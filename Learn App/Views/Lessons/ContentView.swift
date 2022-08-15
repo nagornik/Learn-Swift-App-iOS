@@ -12,6 +12,7 @@ struct ContentView: View {
     @EnvironmentObject var model: ContentModel
     
     var body: some View {
+        
         ScrollView {
             LazyVStack (alignment: .leading) {
                 
@@ -25,9 +26,6 @@ struct ContentView: View {
                         } label: {
                             ContentViewRow(index: index)
                         }
-                        
-                        
-                        
                     }
                 }
                 
@@ -36,8 +34,6 @@ struct ContentView: View {
             .navigationTitle("Learn \(model.currentModule?.category ?? "" )")
         }
         .background(Color("background2"))
-        
-        
         
     }
 }

@@ -16,11 +16,13 @@ struct HomeViewRow: View {
     var time: String
     
     var body: some View {
+        
         ZStack {
             
             VStack {
                 
                 VStack (alignment: .leading, spacing: 10) {
+                    
                     HStack(alignment: .center) {
                         Text(title)
                             .font(.title2)
@@ -38,26 +40,33 @@ struct HomeViewRow: View {
                         .multilineTextAlignment(.leading)
                         .padding(.bottom, 20)
                         .font(.callout)
+                    
                     HStack {
+                        
                         Image(systemName: "text.book.closed")
                             .resizable()
                             .frame(width: 15, height: 15)
+                        
                         Text(count)
                             .font(Font.system(size: 13))
+                        
                         Spacer()
+                        
                         Image(systemName: "clock")
                             .resizable()
                             .frame(width: 15, height: 15)
+                        
                         Text(time)
                             .font(Font.system(size: 13))
+                        
                     }
+                    
                 }
                 .foregroundColor(Color("text"))
                 .padding(.horizontal)
                 
             }
             .padding()
-//            .background(Color("back"))
             .background(.thickMaterial)
             .overlay(content: {
                 RoundedRectangle(cornerRadius: 30, style: .continuous)
@@ -66,7 +75,7 @@ struct HomeViewRow: View {
                     )
             })
             .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
-
+            
             
         }
     }
@@ -74,12 +83,14 @@ struct HomeViewRow: View {
 
 struct HomeViewRow_Previews: PreviewProvider {
     static var previews: some View {
-//        HomeViewRow(image: "swift", title: "Learn Swift", description: "Understand the fundamentals of the Swift programming language.", count: "20 Lessons", time: "2 Hours")
-        HomeCoverView(image: "swift", title: "Learn Swift", description: "Understand the fundamentals of the Swift programming language.", count: "20 Lessons", time: "2 Hours")
+        HomeViewRow(image: "swift", title: "Learn Swift", description: "Understand the fundamentals of the Swift programming language.", count: "20 Lessons", time: "2 Hours")
+//        HomeCoverView(image: "swift", title: "Learn Swift", description: "Understand the fundamentals of the Swift programming language.", count: "20 Lessons", time: "2 Hours")
             .preferredColorScheme(.dark)
     }
 }
 
+
+// MARK: NOT USED (JUST IN CASE)
 struct HomeCoverView: View {
     
     @State var show = false
@@ -144,25 +155,21 @@ struct HomeCoverView: View {
         }
         .padding()
         .multilineTextAlignment(.center)
-//        .frame(height: 477)
         .frame(maxWidth: .infinity)
-//        .background(Image("Card3").offset(x: viewState.width/25, y: viewState.height/25), alignment: .bottom)
         .background(Color("back").opacity(0.5))
         .background(
             ZStack {
                 Image("Blob")
-//                    .offset(x: -150, y: -200)
                     .offset(x: CGFloat.random(in: -200..<100), y: CGFloat.random(in: -200..<200))
                     .rotationEffect(.degrees(show ? Double(rand.randomElement()! * 360 + 90) : 90))
                     .blendMode(.colorBurn)
                     .animation(.linear(duration: 60).repeatForever(autoreverses: false), value: show)
                 Image("Blob")
-//                    .offset(x: -200, y: -250)
                     .offset(x: CGFloat.random(in: -200..<100), y: CGFloat.random(in: -200..<200))
                     .rotationEffect(.degrees(show ? Double(rand.randomElement()! * 360) : 0), anchor: .leading)
                     .blendMode(.overlay)
                     .animation(.linear(duration: 100).repeatForever(autoreverses: false), value: show)
-                }
+            }
                 .onAppear {
                     show = true
                 }
@@ -173,17 +180,6 @@ struct HomeCoverView: View {
         .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
         .rotation3DEffect(.degrees(isDragging ? maxValue : 0), axis: (-viewState.height, viewState.width, 0))
         .scaleEffect(isDragging ? 0.95 : 1)
-//        .gesture(
-//            DragGesture()
-//                .onChanged({ value in
-//                    viewState = value.translation
-//                    isDragging = true
-//                })
-//                .onEnded({ value in
-//                    viewState = .zero
-//                    isDragging = false
-//                })
-//        )
         .animation(.easeInOut, value: viewState)
         .animation(.easeInOut, value: isDragging)
     }

@@ -10,56 +10,40 @@ import SwiftUI
 struct ResumeView: View {
     
     @EnvironmentObject var model: ContentModel
-    @State var resumeSelected: Int?
     let user = UserService.shared.user
     
+    @State var resumeSelected: Int?
+    
     var resumeTitle: String {
-        
         let module = model.modules[user.lastModule ?? 0]
-        
         if user.lastLesson != 0 {
-            // Resume a lesson
             return "Learn \(module.category): Lesson \(user.lastLesson! + 1)"
         }
         else {
-            // Resume a test
             return "\(module.category) Test: Question \(user.lastQuestion! + 1)"
         }
-        
     }
     
     var destination: some View {
-        
         return Group {
-        
             let module = model.modules[user.lastModule ?? 0]
-            
-            // Determine if we need to go into a ContentDetailView or a TestView
             if user.lastLesson! > 0 {
-                // Go to ContentDetailView
                 ContentDetailView()
                     .onAppear(perform: {
-                        
-                        // Fetch lessons
                         model.getDatabaseLessons(module: module) {
                             model.beginModule(moduleId: module.id)
                             model.beginLesson(lessonId: user.lastLesson!)
                         }
-                        
                     })
-            }
-            else {
-                // Go to TestView
+            } else {
                 TestView()
                     .onAppear(perform: {
-                    
                         model.getDatabaseQuestions(module: module) {
                             model.beginTest(moduleId: module.id)
                             model.currentQuestionIndex = user.lastQuestion!
                         }
-                })
+                    })
             }
-            
         }
     }
     
@@ -67,14 +51,10 @@ struct ResumeView: View {
         
         let module = model.modules[user.lastModule ?? 0]
         
-        NavigationLink(destination: destination,
-                       tag: module.id.hash,
-                       selection: $resumeSelected) {
+        NavigationLink(destination: destination, tag: module.id.hash, selection: $resumeSelected) {
             
             ZStack {
-                
                 VStack {
-                    
                     HStack {
                         VStack (alignment: .leading) {
                             Text("Continue where you left off:")
@@ -89,10 +69,8 @@ struct ResumeView: View {
                             .frame(width:40, height: 40)
                     }
                     .padding(.horizontal)
-                    
                 }
                 .padding()
-    //            .background(Color("back"))
                 .background(.thickMaterial)
                 .overlay(content: {
                     RoundedRectangle(cornerRadius: 30, style: .continuous)
@@ -101,17 +79,7 @@ struct ResumeView: View {
                         )
                 })
                 .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
-                
-
             }
-            
-            
-            
-            
-            
         }
-        
-        
-        
     }
 }

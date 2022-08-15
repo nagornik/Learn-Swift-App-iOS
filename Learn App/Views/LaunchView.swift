@@ -13,7 +13,6 @@ struct LaunchView: View {
     
     var body: some View {
         
-        
         if model.loggedIn == false {
             LoginView()
                 .onAppear {
@@ -27,7 +26,7 @@ struct LaunchView: View {
                         ProgressView()
                             .onAppear {
                                 model.getDatabaseModules()
-                        }
+                            }
                     }
                 } else {
                     HomeView()
@@ -46,15 +45,11 @@ struct LaunchView: View {
                         }
                 }
             }
-
-            
-            
-            
-            
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { output in
                 model.saveData(writeToDatabase: true)
             }
         }
+        
     }
 }
 

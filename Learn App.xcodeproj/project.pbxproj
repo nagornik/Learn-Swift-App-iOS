@@ -10,7 +10,6 @@
 		0495CEAB43CD39904AD66D87 /* Pods_Learn_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EA794DF8CC7A5D70FC70ABA /* Pods_Learn_App.framework */; };
 		4B8884FF28514E4600843CE1 /* ResumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8884FE28514E4600843CE1 /* ResumeView.swift */; };
 		4B9DA94B28A9587300A08601 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9DA94A28A9587300A08601 /* Extensions.swift */; };
-		4B9DA94D28A9739100A08601 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9DA94C28A9739100A08601 /* LottieView.swift */; };
 		4B9F3BFA282AB91800040FEB /* Learn_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9F3BF9282AB91800040FEB /* Learn_App.swift */; };
 		4B9F3BFC282AB91800040FEB /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9F3BFB282AB91800040FEB /* HomeView.swift */; };
 		4B9F3BFE282AB91C00040FEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B9F3BFD282AB91C00040FEB /* Assets.xcassets */; };
@@ -42,7 +41,6 @@
 		361CE6B55C48455967CBF712 /* Pods-Learn App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Learn App.release.xcconfig"; path = "Target Support Files/Pods-Learn App/Pods-Learn App.release.xcconfig"; sourceTree = "<group>"; };
 		4B8884FE28514E4600843CE1 /* ResumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeView.swift; sourceTree = "<group>"; };
 		4B9DA94A28A9587300A08601 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		4B9DA94C28A9739100A08601 /* LottieView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		4B9F3BF6282AB91800040FEB /* Learn App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Learn App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B9F3BF9282AB91800040FEB /* Learn_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Learn_App.swift; sourceTree = "<group>"; };
 		4B9F3BFB282AB91800040FEB /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -82,14 +80,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4B9DA94E28A979EB00A08601 /* New Views */ = {
-			isa = PBXGroup;
-			children = (
-				4BD7C5522851023400FE4832 /* LoginView.swift */,
-			);
-			path = "New Views";
-			sourceTree = "<group>";
-		};
 		4B9F3BED282AB91800040FEB = {
 			isa = PBXGroup;
 			children = (
@@ -151,7 +141,6 @@
 			isa = PBXGroup;
 			children = (
 				4BD7C5542851026500FE4832 /* LaunchView.swift */,
-				4B9DA94E28A979EB00A08601 /* New Views */,
 				4BD7C54F285101C000FE4832 /* Account */,
 				4BD7C54D285101B100FE4832 /* Home */,
 				4BD7C54E285101B800FE4832 /* Lessons */,
@@ -214,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				4BD7C5562851217000FE4832 /* ProfileView.swift */,
+				4BD7C5522851023400FE4832 /* LoginView.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -223,7 +213,6 @@
 			children = (
 				4B9F3C3E282B808300040FEB /* CodeTextView.swift */,
 				4B9F3C5D282B9AC000040FEB /* RectangleCard.swift */,
-				4B9DA94C28A9739100A08601 /* LottieView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -370,7 +359,6 @@
 				4B9F3C15282AD2E600040FEB /* HomeViewRow.swift in Sources */,
 				4B9F3C17282AD7E500040FEB /* ContentView.swift in Sources */,
 				4BD7C55928512AFC00FE4832 /* UserService.swift in Sources */,
-				4B9DA94D28A9739100A08601 /* LottieView.swift in Sources */,
 				4B9DA94B28A9587300A08601 /* Extensions.swift in Sources */,
 				4B9F3C1B282AE7C800040FEB /* ContentDetailView.swift in Sources */,
 				4B9F3BFA282AB91800040FEB /* Learn_App.swift in Sources */,

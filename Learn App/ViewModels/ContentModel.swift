@@ -16,11 +16,9 @@ class ContentModel: ObservableObject {
     
     @Published var loggedIn = false
     
-    // List of modules
     @Published var modules = [Module]()
     @Published var localModules = [Module]()
     
-    //Current module
     @Published var currentModule: Module?
     var currentModuleIndex = 0
     
@@ -41,7 +39,7 @@ class ContentModel: ObservableObject {
         getLocalStyles()
     }
     
-    
+    // MARK: - Complete the lesson
     func completeLesson(inputLesson: Lesson = Lesson()) {
         guard currentModule != nil else {return}
         let user = UserService.shared.user
@@ -96,12 +94,9 @@ class ContentModel: ObservableObject {
                         ref2.document(lesson.lessonTitle).setData(["module" : lesson.module, "lessonNumber" : lesson.lessonNumber, "lessonTitle" : lesson.lessonTitle], merge: true)
                     }
                 })
-                
-                
             }
             
         }
-        
         
     }
     
@@ -179,75 +174,13 @@ class ContentModel: ObservableObject {
                     m.test.time = testMap["time"] as! String
                     modules.append(m)
                 }
-//                DispatchQueue.main.async {
+                DispatchQueue.main.async {
                     self.modules = modules
                     self.getOtherStuff()
-//                }
+                }
             }
         }
     }
-    
-    // MARK: - Push to Firebase
-//    func pushToFirebase(modules: [Module]) {
-//
-//        let db = Firestore.firestore()
-//
-//        let cloudModules = db.collection("modules")
-//
-//        for module in modules {
-//
-//            let content = module.content
-//            let test = module.test
-//
-//            // Add the module
-//            let cloudModule = cloudModules.addDocument(data: [
-//                "category": module.category
-//            ])
-//
-//            cloudModule.updateData([
-//                "id": cloudModule.documentID,
-//                "content": [
-//                    "image": content.image,
-//                    "time": content.time,
-//                    "description": content.description,
-//                    "count": content.lessons.count,
-//                    "id": cloudModule.documentID
-//                ],
-//                "test": [
-//                    "image": test.image,
-//                    "time": test.time,
-//                    "description": test.description,
-//                    "count": test.questions.count,
-//                    "id": cloudModule.documentID
-//                ]
-//            ])
-//
-//            // Add the lessons
-//            for lesson in content.lessons {
-//                let cloudLesson = cloudModule.collection("lessons").addDocument(data: [
-//                    "title": lesson.title,
-//                    "video": lesson.video,
-//                    "duration": lesson.duration,
-//                    "explanation": lesson.explanation
-//                ])
-//
-//                cloudLesson.updateData(["id": cloudLesson.documentID])
-//            }
-//
-//            // Add the questions
-//            for question in test.questions {
-//                let cloudQuestion = cloudModule.collection("questions").addDocument(data: [
-//                    "content": question.content,
-//                    "correctIndex": question.correctIndex,
-//                    "answers": question.answers
-//                ])
-//
-//                cloudQuestion.updateData(["id": cloudQuestion.documentID])
-//            }
-//
-//        }
-//
-//    }
     
     
     // MARK: - Get lessons
@@ -300,6 +233,7 @@ class ContentModel: ObservableObject {
     
     //MARK: - Get local data
     func getLocalStyles() {
+        
 //        if let jsonUrl = Bundle.main.url(forResource: "data", withExtension: "json") {
 //            do {
 //                let rawData = try Data(contentsOf: jsonUrl)
@@ -322,27 +256,6 @@ class ContentModel: ObservableObject {
         }
         
     }
-    
-    //MARK: - Get remote data
-    
-//    func getRemoteData(completion: @escaping () -> Void) {
-//        
-//        if let url = URL(string: "https://nagornik.github.io/Learn-App/data2.json") {
-//            let request = URLRequest(url: url)
-//            let dataTask = URLSession.shared.dataTask(with: request) { data, responce, error in
-//                guard error == nil else {
-//                    return
-//                }
-//                do {
-//                    let onlineData = try JSONDecoder().decode([Module].self, from: data!)
-//                    DispatchQueue.main.async {
-//                        self.modules += onlineData
-//                    }
-//                } catch {}
-//            }
-//            dataTask.resume()
-//        }
-//    }
     
     //MARK: - Module navigation
     func beginModule(moduleId: String) {

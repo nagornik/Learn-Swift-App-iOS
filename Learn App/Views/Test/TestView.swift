@@ -73,7 +73,6 @@ struct TestView: View {
                     .padding()
                 }
                 Button {
-                    
                     if submitted == true {
                         if model.currentQuestionIndex+1 == model.currentModule?.test.questions.count ?? 0 {
                             model.nextQuestion()
@@ -83,25 +82,18 @@ struct TestView: View {
                             submitted = false
                             selectedAnswerIndex = nil
                         }
-                        
-                        
-                        
                     } else {
                         submitted = true
                         if selectedAnswerIndex == model.currentQuestion?.correctIndex ?? 0 {
                             numCorrect += 1
                         }
                     }
-                    
                 } label: {
                     ZStack {
-                            
                         Text(buttonText)
                             .bold()
                             .frame(height: 48)
-                        
                     }
-//                    .padding()
                     .frame(maxWidth: .infinity)
                     .foregroundColor(Color("text"))
                     .background(.green.opacity(0.5))
@@ -122,7 +114,6 @@ struct TestView: View {
             .navigationTitle("\(model.currentModule?.category ?? "") Test")
             .background(Color("background2").ignoresSafeArea())
         } else if showResult == true {
-//            ProgressView()
             TestResultView(numCorrect: numCorrect)
         } else {
             ProgressView()
