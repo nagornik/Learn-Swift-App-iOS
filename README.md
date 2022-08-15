@@ -3,7 +3,6 @@
 This app provides some text information, videos and tests about Swift/SwiftUI basics.
 
 ## Features:
-- URLSession to get data from API
 - All data is stored on Firebase
 - Login with Firebase to save your name and progress
 - Transform html + css to NSAttributedString
