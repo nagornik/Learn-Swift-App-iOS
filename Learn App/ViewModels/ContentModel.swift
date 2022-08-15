@@ -19,13 +19,25 @@ class ContentModel: ObservableObject {
     @Published var modules = [Module]()
     @Published var localModules = [Module]()
     
-    @Published var currentModule: Module?
+    @Published var currentModule: Module? {
+        didSet {
+            impact(type: .soft)
+        }
+    }
     var currentModuleIndex = 0
     
-    @Published var currentLesson: Lesson?
+    @Published var currentLesson: Lesson? {
+        didSet {
+            impact(type: .soft)
+        }
+    }
     var currentLessonIndex = 0
     
-    @Published var currentQuestion: Question?
+    @Published var currentQuestion: Question? {
+        didSet {
+            impact(type: .soft)
+        }
+    }
     var currentQuestionIndex = 0
     
     @Published var codeText = NSAttributedString()
