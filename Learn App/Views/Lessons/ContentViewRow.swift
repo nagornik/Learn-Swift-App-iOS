@@ -108,7 +108,7 @@ struct ContentViewRow: View {
         }
         .padding(.bottom, 5)
         .onAppear {
-            if UserService.shared.user.completedLessons.contains(lesson.title) {
+            if UserService.shared.user.finishedLessons.contains(where: {$0.lessonTitle == lesson.title}) {
                 completed = true
             } else {
                 completed = false

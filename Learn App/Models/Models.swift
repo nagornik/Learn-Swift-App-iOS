@@ -59,5 +59,11 @@ class User {
     var lastModule: Int?
     var lastLesson: Int?
     var lastQuestion: Int?
-    var completedLessons: [String] = []
+    var finishedLessons: [FinishedLesson] = []
+}
+
+class FinishedLesson {
+    var module = ""
+    var lessonNumber = 0
+    var lessonTitle = ""
 }

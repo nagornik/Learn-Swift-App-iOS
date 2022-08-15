@@ -28,27 +28,47 @@ struct ContentDetailView: View {
             
             
             CodeTextView()
-                .foregroundColor(.blue)
-
+                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                .padding(.vertical)
             HStack {
                 
                 Button {
-                    if model.hasNextLesson() {
-                        model.setNextLesson()
-                    } else {
-                        model.setNextLesson()
-                        model.currentContentSelected = nil
+                    withAnimation {
+                        if model.hasNextLesson() {
+                            model.setNextLesson()
+                        } else {
+                            model.setNextLesson()
+                            model.currentContentSelected = nil
+                        }
                     }
+                    
+                    
                 } label: {
                     ZStack {
                         
-                        RectangleCard(color: .green)
-                            .frame(height: 48)
-                        Text(model.hasNextLesson() ? "Next Lesson: \(model.currentModule?.content.lessons[model.currentLessonIndex+1].title ?? "Loading...")" : "Exit")
-                            .foregroundColor(.white)
+//                        RectangleCard(color: .green)
+//                            .frame(height: 48)
+                        Text(model.hasNextLesson() ? "Next: \(model.currentModule?.content.lessons[model.currentLessonIndex+1].title ?? "Loading...")" : "Exit")
+//                            .foregroundColor(.white)
                             .bold()
+                            .frame(maxWidth: .infinity, maxHeight: 48)
+                            .lineLimit(1)
+
                         
                     }
+//                    .padding()
+                    .foregroundColor(Color("text"))
+//                    .foregroundColor(.accentColor)
+//                    .padding(.vertical)
+                    .background(.green.opacity(0.5))
+                    .background(Color("back"))
+                    .overlay(content: {
+                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            .stroke(
+                                LinearGradient(colors: [Color("text").opacity(0.1), Color("back")], startPoint: .topLeading, endPoint: .bottomTrailing)
+                            )
+                    })
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                 }
                 
                 
@@ -59,9 +79,13 @@ struct ContentDetailView: View {
                     Text(completed ? "Completed" : "Complete")
                         .font(.caption2)
                 }
+                .frame(width: 60)
+                .foregroundColor(completed ? .primary : .secondary)
                 .onTapGesture {
                     model.completeLesson()
-                    completed.toggle()
+                    withAnimation {
+                        completed.toggle()
+                    }
                 }
 
                 
@@ -99,7 +123,7 @@ struct ContentDetailView: View {
         
         .onAppear(perform: {
             guard model.currentLesson != nil else {return}
-            if UserService.shared.user.completedLessons.contains(model.currentLesson!.title) {
+            if UserService.shared.user.finishedLessons.contains(where: {$0.lessonTitle == model.currentLesson!.title}) {
                 completed = true
             } else {
                 completed = false
@@ -107,7 +131,7 @@ struct ContentDetailView: View {
         })
         .onChange(of: model.currentLessonIndex, perform: { _ in
             guard model.currentLesson != nil else {return}
-            if UserService.shared.user.completedLessons.contains(model.currentLesson!.title) {
+            if UserService.shared.user.finishedLessons.contains(where: {$0.lessonTitle == model.currentLesson!.title}) {
                 completed = true
             } else {
                 completed = false

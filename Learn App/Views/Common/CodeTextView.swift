@@ -14,13 +14,15 @@ struct CodeTextView: UIViewRepresentable {
     func makeUIView(context: Context) -> UITextView {
         let textView = UITextView()
         textView.isEditable = false
-        textView.backgroundColor = UIColor(Color("background2"))
+//        textView.backgroundColor = UIColor(Color("background2"))
+        textView.backgroundColor = UIColor(Color("back"))
         return textView
     }
     
     func updateUIView(_ textView: UITextView, context: Context) {
         textView.attributedText = model.codeText
         textView.textColor = UIColor(Color("text"))
+        textView.textContainer.lineFragmentPadding = 20
         textView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: false)
     }
     

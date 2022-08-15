@@ -43,7 +43,7 @@ class ContentModel: ObservableObject {
     
     
     func completeLesson(inputLesson: Lesson = Lesson()) {
-//        guard currentLesson != nil else {return}
+        guard currentModule != nil else {return}
         let user = UserService.shared.user
 
         var lesson = inputLesson
@@ -52,24 +52,25 @@ class ContentModel: ObservableObject {
             lesson = currentLesson!
         }
         
-        if user.completedLessons.contains(lesson.title) {
-            user.completedLessons.removeAll(where: {$0 == lesson.title})
+        let finishedLesson = FinishedLesson()
+        finishedLesson.module = currentModule!.category
+        finishedLesson.lessonNumber = currentModule!.content.lessons.firstIndex(where: {$0.title == lesson.title})!
+        finishedLesson.lessonTitle = lesson.title
+        
+        if user.finishedLessons.contains(where: {$0.lessonTitle == lesson.title}) {
+            DispatchQueue.main.async {
+                user.finishedLessons.removeAll(where: {$0.lessonTitle == lesson.title})
+            }
         } else {
-            user.completedLessons.append(lesson.title)
+            DispatchQueue.main.async {
+                user.finishedLessons.append(finishedLesson)
+            }
         }
         
         saveData(writeToDatabase: true)
         
     }
     
-//    func checkIfLessonCompleted() -> Bool {
-//        guard currentLesson != nil else {return false}
-//        if UserService.shared.user.completedLessons.contains(currentLesson!.title) {
-//            return true
-//        } else {
-//            return false
-//        }
-//    }
     
     // MARK: - Save data
     func saveData(writeToDatabase: Bool = false) {
@@ -82,7 +83,21 @@ class ContentModel: ObservableObject {
             
             if writeToDatabase == true {
                 let ref = db.collection("users").document(loggedInUser.uid)
-                ref.setData(["lastModule" : user.lastModule, "lastLesson" : user.lastLesson, "lastQuestion" : user.lastQuestion, "completedLessons" : user.completedLessons, "name" : user.name], merge: true)
+                ref.setData(["lastModule" : user.lastModule, "lastLesson" : user.lastLesson, "lastQuestion" : user.lastQuestion, "name" : user.name], merge: true)
+                
+                let ref2 = ref.collection("finishedLessons")
+                ref2.getDocuments(completion: { snapshot, error in
+                    guard error == nil && snapshot != nil else { return }
+                    for doc in snapshot!.documents {
+                        let data = doc.data()
+                        ref2.document(data["lessonTitle"] as! String).delete()
+                    }
+                    for lesson in user.finishedLessons {
+                        ref2.document(lesson.lessonTitle).setData(["module" : lesson.module, "lessonNumber" : lesson.lessonNumber, "lessonTitle" : lesson.lessonTitle], merge: true)
+                    }
+                })
+                
+                
             }
             
         }
@@ -126,7 +141,18 @@ class ContentModel: ObservableObject {
             user.lastModule = data?["lastModule"] as? Int ?? nil
             user.lastLesson = data?["lastLesson"] as? Int ?? nil
             user.lastQuestion = data?["lastQuestion"] as? Int ?? nil
-            user.completedLessons = data?["completedLessons"] as? [String] ?? []
+        }
+        ref.collection("finishedLessons").getDocuments { snapshot, error in
+            guard error == nil && snapshot != nil else { return }
+            let user = UserService.shared.user
+            for doc in snapshot!.documents {
+                let data = doc.data()
+                let finishedLesson = FinishedLesson()
+                finishedLesson.lessonTitle = data["lessonTitle"] as! String
+                finishedLesson.module = data["module"] as! String
+                finishedLesson.lessonNumber = data["lessonNumber"] as! Int
+                user.finishedLessons.append(finishedLesson)
+            }
         }
     }
     
@@ -274,16 +300,16 @@ class ContentModel: ObservableObject {
     
     //MARK: - Get local data
     func getLocalStyles() {
-        if let jsonUrl = Bundle.main.url(forResource: "data", withExtension: "json") {
-            do {
-                let rawData = try Data(contentsOf: jsonUrl)
-                let decodedData = try JSONDecoder().decode([Module].self, from: rawData)
-                self.localModules = decodedData
-                print("yes")
-            } catch {
-                print("no")
-            }
-        }
+//        if let jsonUrl = Bundle.main.url(forResource: "data", withExtension: "json") {
+//            do {
+//                let rawData = try Data(contentsOf: jsonUrl)
+//                let decodedData = try JSONDecoder().decode([Module].self, from: rawData)
+//                self.localModules = decodedData
+//                print("yes")
+//            } catch {
+//                print("no")
+//            }
+//        }
         
         if let htmlUrl = Bundle.main.url(forResource: "style", withExtension: "html") {
             do {

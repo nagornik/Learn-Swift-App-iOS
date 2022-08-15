@@ -60,6 +60,6 @@ struct LaunchView_Previews: PreviewProvider {
     static var previews: some View {
         LaunchView()
             .environmentObject(ContentModel())
-//            .preferredColorScheme(.dark)
+            .preferredColorScheme(.dark)
     }
 }
