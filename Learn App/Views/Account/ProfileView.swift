@@ -20,9 +20,24 @@ struct ProfileView: View {
             ZStack {
                 VStack(spacing: 0.0) {
                     
+                    HStack {
+                        Text("Hello, \(user.name)")
+                            .font(.title.bold())
+                            .padding(0)
+                            
+                        Spacer()
+                        
+                        Image(systemName: "person.fill")
+                            .onTapGesture {
+                                withAnimation {
+                                    showNameInput = true
+                                }
+                            }
+                    }
+                    
                     Text("Completed lessons")
                         .font(.title2.bold())
-                        .padding(0)
+                        .padding(.top)
                     
                     ForEach(model.modules) { module in
 
@@ -81,17 +96,17 @@ struct ProfileView: View {
                 }
                 .foregroundColor(Color("text"))
                 .padding()
-                .toolbar {
-                    ToolbarItem(id: "settings", placement: .confirmationAction) {
-                        Image(systemName: "person.fill")
-                            .onTapGesture {
-                                withAnimation {
-                                    showNameInput = true
-                                }
-                            }
-                    }
-                }
-                .navigationTitle("Hello, " + UserService.shared.user.name)
+//                .toolbar {
+//                    ToolbarItem(id: "settings", placement: .confirmationAction) {
+//                        Image(systemName: "person.fill")
+//                            .onTapGesture {
+//                                withAnimation {
+//                                    showNameInput = true
+//                                }
+//                            }
+//                    }
+//                }
+//                .navigationTitle("Hello, " + UserService.shared.user.name)
                 .background(Color("background2").ignoresSafeArea())
                 .overlay {
                     Color.black
