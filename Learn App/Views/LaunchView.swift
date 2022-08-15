@@ -20,10 +20,13 @@ struct LaunchView: View {
         } else {
             TabView {
                 if model.modules.count == 0 {
-                    ProgressView()
-                        .onAppear {
-                            model.getDatabaseModules()
+                    VStack {
+                        Text("Loading data...")
+                        ProgressView()
+                            .onAppear {
+                                model.getDatabaseModules()
                         }
+                    }
                 } else {
                     HomeView()
                         .tabItem {
@@ -57,5 +60,6 @@ struct LaunchView_Previews: PreviewProvider {
     static var previews: some View {
         LaunchView()
             .environmentObject(ContentModel())
+//            .preferredColorScheme(.dark)
     }
 }

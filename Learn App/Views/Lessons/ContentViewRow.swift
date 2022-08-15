@@ -24,49 +24,85 @@ struct ContentViewRow: View {
     var body: some View {
         
         
-//        let lesson = model.currentModule!.content.lessons[index]
+
         ZStack {
-            Rectangle()
-                .foregroundColor(.white)
-                .cornerRadius(10)
-                .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 10)
-                .shadow(color: .black.opacity(0.4), radius: 2, x: 0, y: 1)
-                .frame(height: 66)
-            HStack (spacing: 30) {
-                Text(String(index + 1))
-                    .bold()
-                VStack (alignment: .leading) {
-                    Text(lesson.title)
-                        .bold()
-                    Text(lesson.duration)
-                }
-                
-                Spacer()
-                
-                if Auth.auth().currentUser != nil {
-                    Button {
-                        model.completeLesson(inputLesson: lesson)
-                        completed.toggle()
-                    } label: {
-                        Image(systemName: completed ? "checkmark.circle.fill" : "circle")
-                            .font(.system(size: 24, weight: .light))
-                            .padding(.trailing, 8)
-//                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    }
-                }
-                
-                
-            }
-            .padding(.leading, 30)
-            
-//                Image(systemName: completed ? "checkmark.circle.fill" : "circle")
-//                    .font(.system(size: 24, weight: .light))
-//                    .padding(.horizontal, 8)
-//                    .frame(maxWidth: .infinity, alignment: .trailing)
-//                    .onTapGesture {
-//                        model.completeLesson(lesson: lesson)
+//            Rectangle()
+//                .foregroundColor(.white)
+//                .cornerRadius(10)
+//                .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 10)
+//                .shadow(color: .black.opacity(0.4), radius: 2, x: 0, y: 1)
+//                .frame(height: 66)
+//            HStack (spacing: 30) {
+//                Text(String(index + 1))
+//                    .bold()
+//                VStack (alignment: .leading) {
+//                    Text(lesson.title)
+//                        .bold()
+//                    Text(lesson.duration)
+//                }
+//
+//                Spacer()
+//
+//                if Auth.auth().currentUser != nil {
+//                    Button {
+//                        model.completeLesson(inputLesson: lesson)
 //                        completed.toggle()
+//                    } label: {
+//                        Image(systemName: completed ? "checkmark.circle.fill" : "circle")
+//                            .font(.system(size: 24, weight: .light))
+//                            .padding(.trailing, 8)
 //                    }
+//                }
+//
+//
+//            }
+//            .padding(.leading, 30)
+            
+            
+            ZStack {
+                HStack {
+                    Text("\(index + 1).")
+                        .font(.title2)
+                        .padding(.horizontal)
+                    
+                    VStack(alignment: .leading, spacing: 4.0) {
+                        
+                        Text(lesson.title)
+                            .bold()
+                        Text(lesson.duration)
+                            .font(.callout)
+                        
+                    }
+                    
+                    Spacer()
+                    
+                    if Auth.auth().currentUser != nil {
+                        Button {
+                            model.completeLesson(inputLesson: lesson)
+                            completed.toggle()
+                        } label: {
+                            Image(systemName: completed ? "checkmark.circle.fill" : "circle")
+                                .font(.system(size: 24, weight: .light))
+                                .padding(.trailing, 8)
+                                .foregroundColor(.primary)
+                        }
+                    }
+                    
+                }
+            }
+            .foregroundColor(Color("text"))
+            .padding(.vertical)
+            .background(Color("back"))
+            .overlay(content: {
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .stroke(
+                        LinearGradient(colors: [Color("text").opacity(0.1), Color("back")], startPoint: .topLeading, endPoint: .bottomTrailing)
+                    )
+            })
+            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+//            .padding(.horizontal)
+            
+//            .shadow(color: .primary.opacity(0.2), radius: 10, x: 0, y: 10)
             
             
         }
@@ -88,5 +124,6 @@ struct ContentViewRow_Previews: PreviewProvider {
     static var previews: some View {
         ContentViewRow(index: 0)
             .environmentObject(ContentModel())
+            .preferredColorScheme(.dark)
     }
 }

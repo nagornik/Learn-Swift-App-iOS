@@ -28,6 +28,7 @@ struct ContentDetailView: View {
             
             
             CodeTextView()
+                .foregroundColor(.blue)
 
             HStack {
                 
@@ -95,6 +96,7 @@ struct ContentDetailView: View {
             
             
         }
+        
         .onAppear(perform: {
             guard model.currentLesson != nil else {return}
             if UserService.shared.user.completedLessons.contains(model.currentLesson!.title) {
@@ -124,6 +126,7 @@ struct ContentDetailView: View {
                 
             }
         }
+        .background(Color("background2").ignoresSafeArea())
         
         
         

@@ -199,7 +199,7 @@ struct LoginView: View {
                         Text("\(loginMode == .login ? "Don't" : "Already") have an account?")
                         Text(loginMode != .login ? "Log in" : "Sign up")
                             .bold()
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                     }
                     .font(.footnote)
                     .foregroundColor(.secondary)
@@ -424,6 +424,7 @@ struct LoginView_Previews: PreviewProvider {
         LoginView()
 //        CoverView()
             .environmentObject(ContentModel())
+//            .preferredColorScheme(.dark)
     }
 }
 

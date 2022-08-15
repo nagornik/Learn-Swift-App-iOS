@@ -105,6 +105,7 @@ struct TestView: View {
                 
             }
             .navigationTitle("\(model.currentModule?.category ?? "") Test")
+            .background(Color("background2"))
         } else if showResult == true {
 //            ProgressView()
             TestResultView(numCorrect: numCorrect)

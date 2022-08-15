@@ -19,6 +19,9 @@ struct HomeView: View {
         }
     }
     
+    @State var show = false
+    let rand = [-1, 1]
+    
     var body: some View {
         
         NavigationView {
@@ -31,15 +34,16 @@ struct HomeView: View {
                     
                     LazyVStack {
                         
-                        
                         if user.lastLesson != nil && user.lastLesson! > 0 || user.lastQuestion != nil && user.lastQuestion! > 0 {
                             // Show the resume view
                             ResumeView(resumeSelected: 0)
                                 .padding(.bottom, 20)
                         } else {
                             Text("What do you want to do today?")
+                                .frame(maxWidth: .infinity, alignment: .leading)
 //                                .padding(.leading, 20)
                         }
+                        
                         
                         
                         ForEach(model.modules) { module in
@@ -54,6 +58,7 @@ struct HomeView: View {
                                     }
                             } label: {
                                 HomeViewRow(image: module.content.image, title: "Learn \(module.category)", description: module.content.description, count: "\(module.content.lessons.count) Lessons", time: module.content.time)
+//                                HomeCoverView(image: module.content.image, title: "Learn \(module.category)", description: module.content.description, count: "\(module.content.lessons.count) Lessons", time: module.content.time)
                             }
                             
                             NavigationLink(tag: module.id.hash, selection: $model.currentTestSelected) {
@@ -70,9 +75,12 @@ struct HomeView: View {
                         }.padding(.bottom, 20)
                     }
                     .padding()
-                    .accentColor(.black)
+//                    .accentColor(.black)
                 }
             }
+            .background(Color("background2"))
+            
+            .background(Color(hex: "#FB6E3D"))
             .navigationTitle(navTitle)
             .onChange(of: model.currentContentSelected) { newValue in
                 if newValue == nil {
@@ -85,6 +93,7 @@ struct HomeView: View {
                 }
             }
         }
+        
         .navigationViewStyle(.stack)
         
         

@@ -73,24 +73,41 @@ struct ResumeView: View {
             
             ZStack {
                 
-                RectangleCard(color: .white)
-                    .frame(height: 66)
+                VStack {
                     
-                HStack {
-                    VStack (alignment: .leading) {
-                        Text("Continue where you left off:")
-                        Text(resumeTitle)
-                            .bold()
+                    HStack {
+                        VStack (alignment: .leading) {
+                            Text("Continue where you left off:")
+                            Text(resumeTitle)
+                                .bold()
+                        }
+                        .foregroundColor(Color("text"))
+                        Spacer()
+                        Image("play")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width:40, height: 40)
                     }
-                    .foregroundColor(.black)
-                    Spacer()
-                    Image("play")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width:40, height: 40)
+                    .padding(.horizontal)
+                    
                 }
                 .padding()
+    //            .background(Color("back"))
+                .background(.thickMaterial)
+                .overlay(content: {
+                    RoundedRectangle(cornerRadius: 30, style: .continuous)
+                        .stroke(
+                            LinearGradient(colors: [Color("text").opacity(0.1), Color("back")], startPoint: .topLeading, endPoint: .bottomTrailing)
+                        )
+                })
+                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                
+
             }
+            
+            
+            
+            
             
         }
         
@@ -98,10 +115,3 @@ struct ResumeView: View {
         
     }
 }
-
-//struct ResumeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ResumeView()
-//            .environmentObject(ContentModel())
-//    }
-//}
