@@ -1,6 +1,6 @@
 # Learn-Swift-iOS-App - made in SwiftUI
 
-This app provides some text information, videos and tests about Swift/SwiftUI basics.
+This app provides some text information, videos and tests about Swift/SwiftUI basics, downloading all data from Firebase.
 
 ## Features:
 - All data is stored on Firebase
