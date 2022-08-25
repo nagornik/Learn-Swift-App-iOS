@@ -20,7 +20,6 @@ struct HomeView: View {
     }
     
     @State var show = false
-    let rand = [-1, 1]
     
     var body: some View {
         
